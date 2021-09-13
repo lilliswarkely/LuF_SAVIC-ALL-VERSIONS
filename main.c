@@ -18,7 +18,6 @@
 #include <time.h>
 #include <stdio.h>
 #include <math.h>
-#include <stdbool.h>
 #include <ctype.h>
 
 void callStoogeRecurse(int i, int j, int toSort[], int userDelay, int size);
