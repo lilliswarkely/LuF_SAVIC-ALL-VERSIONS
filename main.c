@@ -1,7 +1,7 @@
 /*_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- 
 * Luna's First Sorting Algorithm Visualizer in C
 * 
-* 2021/09/11 - LuF-SAVIC V0.0.5 Pre-Alpha
+* 2021/09/15 - LuF-SAVIC V0.0.6 Pre-Alpha
 *
 * Bugs may be present
 *
@@ -18,9 +18,9 @@
 #include <time.h>
 #include <stdio.h>
 #include <math.h>
-#include <stdbool.h>
 #include <ctype.h>
 
+void selectionSort(int i, int j, int toSort[], int size, int delay);
 void callStoogeRecurse(int i, int j, int toSort[], int userDelay, int size);
 void stooge(int i, int j, int toSort[], int userDelay, int size);
 int bubbleSort(int i, int j, int listToSort[], int size, int userDelay);
@@ -42,7 +42,7 @@ void gnomeSort(int i, int j, int listToSort[], int size, int userDelay);
 
 int main(void) {
   
-  printf("\n\nLuF-SAVIC V0.0.5PreAlpha (This is the PreAlpha version so bugs may be present. Very early in Developement.");
+  printf("\n\nLuF-SAVIC V0.0.6 PreAlpha (This is the PreAlpha version so bugs may be present. Very early in Developement.)");
   int userInput;
   int a;
   int shuffleType;
@@ -144,7 +144,7 @@ int main(void) {
 
   int sortChosen;
 
-  printf("\nChoose your sort\n\n  0 -- Bubble Sort  1 -- Cocktail Sort  2 -- Comb Sort  3 -- Gnome Sort  4 -- Odd Even Sort  5 -- Grate Sort  6 -- Sandpaper Sort  7 -- Stooge Sort  8 -- Reverse Sandpaper Sort\n\n");
+  printf("\nChoose your sort\n\n  0 -- Bubble Sort  1 -- Cocktail Sort  2 -- Comb Sort  \n\n  3 -- Gnome Sort  4 -- Odd Even Sort  5 -- Grate Sort  \n\n  6 -- Sandpaper Sort  7 -- Stooge Sort  8 -- Reverse Sandpaper Sort  \n\n  9 -- Selection Sort\n\n");
   scanf("%d", &sortChosen);
 
   if(sortChosen == 0) {
@@ -165,6 +165,8 @@ int main(void) {
     callStoogeRecurse(0, userInput, mainList, userDelay, userInput);
   } else if(sortChosen == 8) {
     reverseSandPaperSort(i, j, mainList, userInput, userDelay);
+  } else if(sortChosen == 9) {
+    selectionSort(i, j, mainList, userInput, userDelay);
   } 
   return 0;
 }
@@ -868,6 +870,10 @@ void callStoogeRecurse(int i, int j, int toSort[], int userDelay, int size){
 void stooge(int i, int j, int toSort[], int userDelay, int size){
   int k;
   int n;
+  int comps = 0;
+  int swaps = 0;
+  int passes = 1;
+
   if (j > i) {
     if (toSort[j] < toSort[i]) {
       k = toSort[j];
@@ -888,9 +894,11 @@ void stooge(int i, int j, int toSort[], int userDelay, int size){
 
     while(n < size)
     {
+      comps += 1;
       if(n == (i) || n == (j)){
         printf(", >%d<", toSort[n]);
         n += 1;
+        swaps += 1;
         } else {
         printf(", [%d]", toSort[n]);
         n += 1;
@@ -904,6 +912,7 @@ void stooge(int i, int j, int toSort[], int userDelay, int size){
       stooge(i, j - t, toSort, userDelay, size);
     }
   }
+  
   return;
 }
 
@@ -987,4 +996,98 @@ int reverseSandPaperSort(int i, int j, int listToSort[], int size, int userDelay
   printf("  |List Sorted in %d comparisons and %d swaps after %d passes|\n======================\n", comps, swaps, passes);
 
   return done;
+}
+
+
+
+void selectionSort(int i, int j, int toSort[], int size, int userDelay){
+  
+  printf("    Selection Sort\n\n======================\n");
+  
+  i = 0;
+  j = 0;
+  int n = 0;
+  int h = 0;
+  int comps = 0;
+  int swaps = 0;
+  int passes = 0;
+
+  while(i < size){
+    j = i;
+    h = toSort[i];
+    while (j < size)
+    {
+      h = (toSort[j] < toSort[h]) ? j : h;
+      comps += 1;
+      j += 1;
+      n = 0;
+
+        if(n == i|| n == j + 1){
+          printf("\n\n>%d<", toSort[n]);
+          n += 1;
+      } else {
+          printf("\n\n[%d]", toSort[n]);
+          n += 1;
+      }
+  
+        n += 1;
+
+        while(n < size)
+        {
+          if(n == i || n == j + 1){
+            printf(", >%d<", toSort[n]);
+           n += 1;
+           } else {
+            printf(", [%d]", toSort[n]);
+            n += 1;
+          }
+        }
+    delay(userDelay);
+      
+    }
+    
+    j = toSort[h];
+    toSort[h] = toSort[i];
+    toSort[i] = j;
+    swaps += 1;
+    i += 1;
+    n = 0;
+
+        if(n == i|| n == j + 1){
+          printf("\n\n>%d<", toSort[n]);
+          n += 1;
+      } else {
+          printf("\n\n[%d]", toSort[n]);
+          n += 1;
+      }
+  
+        n += 1;
+
+        while(n < size)
+        {
+          if(n == i || n == j + 1){
+            printf(", >%d<", toSort[n]);
+           n += 1;
+           } else {
+            printf(", [%d]", toSort[n]);
+            n += 1;
+          }
+        }
+    delay(userDelay);
+  }
+  n = 0;
+
+  passes += 1;
+  
+  printf("\n[%d]", toSort[n]);
+  
+  n += 1;
+
+  while(n < size)
+  {
+    printf(", [%d]", toSort[n]);
+    n += 1;
+  }
+
+  printf("  |List Sorted in %d comparisons and %d swaps after %d passes|\n======================\n", comps, swaps, passes);
 }
